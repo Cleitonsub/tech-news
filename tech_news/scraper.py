@@ -3,9 +3,10 @@ import time
 
 
 # Requisito 1
-def fetch(url: str, timeout: int = 2):
+def fetch(url: str, timeout: int = 3):
+    fake = {"user-agent": "Fake user-agent"}
     try:
-        response = requests.get(url, timeout)
+        response = requests.get(url, timeout, headers=fake)
         response.raise_for_status()
         time.sleep(1)
     except (requests.HTTPError, requests.ReadTimeout):
