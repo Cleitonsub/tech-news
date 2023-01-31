@@ -31,8 +31,25 @@ def scrape_next_page_link(html_content: str):
 
 
 # Requisito 4
-def scrape_news(html_content):
-    """Seu código deve vir aqui"""
+def scrape_news(html_content: str):
+    selector = Selector(html_content)
+    news = {
+        "url": selector.css("link[rel='canonical']::attr(href)").get(),
+        "title": selector.css(".entry-title::text").get().strip(),
+        "timestamp": selector.css("li.meta-date::text").get(),
+        "writer": selector.css(".author a::text").get(),
+        "comments_count": selector.css(".post-comments-simple h5::text")
+        .get() or 0,
+        "summary": selector.css(".entry-content p").xpath("string()").get()
+        .strip(),
+        "tags": selector.css(".post-tags a::text").getall(),
+        "category": selector.css(".meta-category .label::text").get(),
+    }
+    return news
+# .strip() remove os espacos no inicio e no final da string
+# link: https://www.w3schools.com/python/ref_string_strip.asp
+# XPath é uma linguagem para selecionar nos em documentos XML e HTML
+# link: https://parsel.readthedocs.io/en/latest/usage.html
 
 
 # Requisito 5
