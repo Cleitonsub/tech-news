@@ -4,9 +4,9 @@ from datetime import date as dt
 
 # Requisito 6
 def search_by_title(title: str):
-    title = search_news({'title': {"$regex": title.lower()}})
+    news = search_news({'title': {"$regex": title, "$options": 'i'}})
 
-    result = [(titles['title'], titles['url']) for titles in title]
+    result = [(new['title'], new['url']) for new in news]
     return result if result else []
 
 
@@ -23,8 +23,11 @@ def search_by_date(date: str):
 
 
 # Requisito 8
-def search_by_tag(tag):
-    """Seu código deve vir aqui"""
+def search_by_tag(tag: str):
+    news = search_news({'tags': {"$regex": tag, "$options": 'i'}})
+
+    result = [(new['title'], new['url']) for new in news]
+    return result if result else []
 
 
 # Requisito 9
